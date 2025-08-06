@@ -1,0 +1,26 @@
+FROM python:3.13-alpine
+
+WORKDIR /app
+
+ARG USERNAME=appuser
+
+ARG HOST_UID=1000
+
+ARG HOST_GID=${HOST_UID}
+
+COPY . .
+
+RUN addgroup -g $HOST_GID -S $USERNAME \
+	&& adduser -S -u $HOST_UID -G $USERNAME $USERNAME \
+	&& chown -R $HOST_UID:$HOST_GID /app \
+	&& apk update && apk upgrade \
+	&& apk add --no-cache \
+		sqlite \
+	&& rm -rf /var/cache/apk/*
+
+USER $USERNAME
+
+RUN pip install --upgrade pip \
+	&& pip install --no-cache-dir -r requirements.txt
+
+CMD ["python", "src/bot.py"]

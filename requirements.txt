@@ -1,0 +1,7 @@
+aiogram
+aiosqlite
+django-environ
+django-redis
+Django==5.2.5
+pydantic
+redis

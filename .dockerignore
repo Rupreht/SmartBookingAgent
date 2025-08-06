@@ -1,0 +1,10 @@
+__pycache__/
+.*
+*.db
+*.pyc
+Dockerfile*
+fsm_storage.json
+pyproject.toml
+pytest.ini
+requirements-dev.txt
+/tests
