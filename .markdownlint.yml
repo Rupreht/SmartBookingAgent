@@ -1,0 +1,20 @@
+---
+# Default state for all rules
+# https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.yaml
+default: true
+
+# Rules
+
+# MD003/heading-style : Heading style : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md003.md
+MD003:
+  style: "atx"
+
+# MD013/line-length : Line length : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md013.md
+MD013:
+  line_length: 140
+  code_blocks: false
+  tables: false
+
+# MD024/no-duplicate-heading/no-duplicate-header : Multiple headings with the same content : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md024.md
+MD024:
+  siblings_only: true
