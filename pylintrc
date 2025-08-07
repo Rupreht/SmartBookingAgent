@@ -1,12 +1,12 @@
 [MASTER]
-jobs = 1
 load-plugins = pylint_django
 score = n
 ignore = migrations
 django-settings-module = sba.settings
+function-rgx=[a-z_][a-z0-9_]{3,40}$
 
 [MESSAGES CONTROL]
-disable = R,C,W5103,W0707,W0719,W0718,W0212,E5110
+disable = C0411,C0415,W0107
 
 [TYPECHECK]
 ignored-classes = responses
