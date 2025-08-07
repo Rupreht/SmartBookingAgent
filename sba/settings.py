@@ -14,9 +14,7 @@ import os
 import environ
 from pathlib import Path
 from django.core.management.utils import get_random_secret_key
-
-
-env = environ.Env()
+from django.core.exceptions import ImproperlyConfigured
 
 
 def location(x):
@@ -24,9 +22,14 @@ def location(x):
     return os.path.join(os.path.dirname(os.path.realpath(__file__)), x)
 
 
+# Инициализация environ
+env = environ.Env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Определение конфигурации базы данных на основе переменной окружения
+DJANGO_ENV = env.str("DJANGO_ENV", default="development")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -36,20 +39,6 @@ SECRET_KEY = env.str("SECRET_KEY", default=get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", False)
-
-if DEBUG:
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-else:
-    ALLOWED_HOSTS_STRING = env.str("DJANGO_ALLOWED_HOSTS", "")
-    ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STRING.split(",") if host.strip()]
-    CSRF_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-
 
 # Application definition
 
@@ -97,12 +86,23 @@ WSGI_APPLICATION = "sba.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-    }
+    },
+    "prod": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": env.str("DATABASE_NAME", default=""),
+        "USER": env.str("DATABASE_USER", default=""),
+        "PASSWORD": env.str("DATABASE_PASSWORD", default=""),
+        "HOST": env.str("DATABASE_HOST", default="localhost"),
+        "PORT": env.int("DATABASE_PORT", default=5432),
+        "CONN_MAX_AGE": env.int("DATABASE_CONN_MAX_AGE", default=900),
+        "CONN_HEALTH_CHECKS": env.bool("DATABASE_CONN_HEALTH_CHECKS", default=True),
+        "TIME_ZONE": env.str("DATABASE_TIME_ZONE", default="UTC"),
+        "CHARSET": env.str("DATABASE_CHARSET", default="UTF8"),
+    },
 }
 
 
@@ -128,9 +128,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = env.str("LANGUAGE_CODE", "en-us")
 
-TIME_ZONE = "UTC"
+TIME_ZONE = env.str("TIME_ZONE", default="UTC")
 
 USE_I18N = True
 
@@ -146,3 +146,30 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Выбор активной конфигурации
+if DJANGO_ENV == "development":
+    DATABASES["default"] = DATABASES["default"]
+elif DJANGO_ENV == "production":
+    DATABASES["default"] = DATABASES["prod"]
+else:
+    raise ImproperlyConfigured("Invalid DJANGO_ENV value")
+
+# Проверка обязательных переменных для PostgreSQL
+if DJANGO_ENV == "production":
+    required_vars = ["DATABASE_NAME", "DATABASE_USER", "DATABASE_PASSWORD"]
+    if not all(env.get_value(key, str) for key in required_vars):
+        raise ImproperlyConfigured("Missing required database variables")
+
+if DEBUG:
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+else:
+    ALLOWED_HOSTS_STRING = env.str("DJANGO_ALLOWED_HOSTS", "")
+    ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STRING.split(",") if host.strip()]
+    CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
