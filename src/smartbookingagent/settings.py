@@ -62,7 +62,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "sba.urls"
+ROOT_URLCONF = "smartbookingagent.urls"
 
 TEMPLATES = [
     {
@@ -81,7 +81,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "sba.wsgi.application"
+WSGI_APPLICATION = "smartbookingagent.wsgi.application"
 
 
 # Database

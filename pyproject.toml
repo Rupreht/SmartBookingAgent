@@ -550,7 +550,62 @@ redefining-builtins-modules = ["six.moves", "past.builtins", "future.builtins", 
 
 [tool.black]
 line-length = 140
-target-version = ['py310']
+target-version = ['py312']
 
-[tool.setuptools.dynamic]
-version = {attr = "sba.__version__"}
+[project]
+name = "smart-booking-agent"
+description = "automated reservation system"
+readme = "README.md"
+license = { text = "BSD" }
+requires-python = ">=3.10"
+authors = [
+    { name = "Nikolay Ermolovich", email = "git@rupreht.ru" }
+]
+dynamic = ["version"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.2",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: BSD License"
+]
+keywords = ["Django"]
+dependencies = [
+    "django>=4.2,<5.3",
+    "aiogram>=3.20",
+    "pydantic>=2.11",
+]
+
+[project.optional-dependencies]
+docs = [
+    "Sphinx>=5.0",
+    "sphinxcontrib-spelling==8.0.1",
+    "sphinx_rtd_theme==3.0.2",
+    "sphinx-issues==5.0.1",
+    "sorl-thumbnail>=12.10.0,<13.0.0",
+    "easy-thumbnails>=2.9,<2.11",
+]
+test = [
+  "black>=24.4.2",
+  "coverage>=7.6.1,<8.0.0",
+  "django-environ>=0.4,<0.13",
+  "django-webtest>=1.9,<1.10",
+  "flake8>=7.2",
+  "psycopg2-binary>=2.8,<2.10",
+  "psycopg2-binary>=2.8,<2.10",
+  "pycountry",
+  "pylint-django>=2.5.5",
+  "pylint>=3.2.4",
+  "pytest-asyncio>=1.1.0",
+  "pytest-django>=4.9.0,<5.0",
+  "pytest-xdist>=3.6.1,<4.0.0",
+  "WebTest>=3.0.0,<4.0.0",
+  "whitenoise>=6.7.0,<6.10",
+  "Whoosh>=2.7,<2.8",
+]

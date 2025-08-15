@@ -1,12 +1,6 @@
 # development
 django-debug-toolbar
 django-extensions
-psycopg2-binary
 
 # Linting
-black
 flake8
-pylint
-pylint-django
-pytest
-pytest_asyncio
