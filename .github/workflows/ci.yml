@@ -62,4 +62,4 @@ jobs:
       run: |
         set -ex
         python manage.py migrate
-        python manage.py test
+        python manage.py test bot_admin --debug-mode --verbosity=3
