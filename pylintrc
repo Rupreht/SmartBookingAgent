@@ -2,7 +2,7 @@
 load-plugins = pylint_django
 score = n
 ignore = migrations
-django-settings-module = sba.settings
+django-settings-module = smartbookingagent.settings
 function-rgx=[a-z_][a-z0-9_]{3,40}$
 
 [MESSAGES CONTROL]
