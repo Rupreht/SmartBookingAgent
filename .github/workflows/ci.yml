@@ -59,6 +59,7 @@ jobs:
         DATABASE_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
         DATABASE_NAME: postgres
         DJANGO_ENV: production
+        PYTHONPATH: src
       run: |
         set -ex
         python manage.py migrate
