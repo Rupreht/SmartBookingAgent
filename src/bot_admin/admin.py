@@ -1,7 +1,7 @@
 """Admin Bot Admin"""
 
 from django.contrib import admin
-from .models import ServiceLocation, WeekDay
+from .models import ServiceLocation, WorkDay
 
 
 class ServiceLocationAdmin(admin.ModelAdmin):
@@ -31,7 +31,7 @@ class ServiceLocationAdmin(admin.ModelAdmin):
     get_address.short_description = "Полный адрес"
 
 
-class WeekDayAdmin(admin.ModelAdmin):
+class WorkDayAdmin(admin.ModelAdmin):
     """
     Административный интерфейс для управления днями недели.
     """
@@ -42,4 +42,4 @@ class WeekDayAdmin(admin.ModelAdmin):
 
 
 admin.site.register(ServiceLocation, ServiceLocationAdmin)
-admin.site.register(WeekDay, WeekDayAdmin)
+admin.site.register(WorkDay, WorkDayAdmin)
