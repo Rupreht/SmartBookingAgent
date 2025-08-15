@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name="WeekDay",
+            name="WorkDay",
             fields=[
                 ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
                 (
@@ -80,7 +80,7 @@ class Migration(migrations.Migration):
                 (
                     "available_days",
                     models.ManyToManyField(
-                        blank=True, related_name="service_locations", to="bot_admin.weekday", verbose_name="Доступные дни недели"
+                        blank=True, related_name="service_locations", to="bot_admin.workday", verbose_name="Доступные дни недели"
                     ),
                 ),
             ],

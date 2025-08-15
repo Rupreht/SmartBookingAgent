@@ -5,7 +5,7 @@ from django.utils import timezone
 import datetime
 
 
-class WeekDay(models.Model):
+class WorkDay(models.Model):
     """
     Модель для представления дня недели.
     """
@@ -59,7 +59,7 @@ class ServiceLocation(models.Model):
     capacity = models.PositiveIntegerField(default=1, verbose_name="Вместимость")
 
     # Временные параметры
-    available_days = models.ManyToManyField(WeekDay, blank=True, related_name="service_locations", verbose_name="Доступные дни недели")
+    available_days = models.ManyToManyField(WorkDay, blank=True, related_name="service_locations", verbose_name="Доступные дни недели")
 
     class Meta:
         verbose_name = "Место оказания услуги"
@@ -67,7 +67,7 @@ class ServiceLocation(models.Model):
         ordering = ["name"]
 
     def __str__(self):
-        return self.name
+        return f"{self.name} - {self.city}"
 
     def is_available(self, date, time):
         """
@@ -91,7 +91,11 @@ class ServiceLocation(models.Model):
         if self.rest_of_address:
             address_parts.append(self.rest_of_address)
         address = ", ".join(address_parts)
-        return f"{address} ({self.latitude}, {self.longitude})" if self.latitude else address
+        return address
+
+    def get_geo(self):
+        "геолокация"
+        return f"{self.latitude}, {self.longitude}" if self.latitude else "-"
 
     def get_working_hours(self):
         """
