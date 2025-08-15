@@ -87,7 +87,7 @@ WSGI_APPLICATION = "smartbookingagent.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 DATABASES = {
-    "default": {
+    "production": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": env.str("DATABASE_NAME", default=""),
         "USER": env.str("DATABASE_USER", default=""),
@@ -99,7 +99,7 @@ DATABASES = {
         "TIME_ZONE": env.str("DATABASE_TIME_ZONE", default="UTC"),
         "CHARSET": env.str("DATABASE_CHARSET", default="UTF8"),
     },
-    "test": {
+    "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     },
@@ -151,7 +151,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 if DJANGO_ENV == "development":
     DATABASES["default"] = DATABASES["default"]
 elif DJANGO_ENV == "production":
-    DATABASES["default"] = DATABASES["prod"]
+    DATABASES["default"] = DATABASES["production"]
 else:
     raise ImproperlyConfigured("Invalid DJANGO_ENV value")
 
