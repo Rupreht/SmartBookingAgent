@@ -109,6 +109,28 @@ class ServiceLocation(models.Model):
         return ", ".join(hours)
 
 
+class RentalObject(models.Model):
+    """
+    Модель для объекта аренды
+    """
+
+    # Основные поля
+    name = models.CharField(max_length=255, verbose_name="Название")
+    description = models.TextField(blank=True, verbose_name="Описание")
+    minimum_rental_duration = models.TimeField(auto_now=False, null=False, blank=False, verbose_name="Минимальное время аренды")
+    # type_obj =
+    # additional_terms =
+    current_location = models.ManyToManyField(ServiceLocation, blank=True, related_name="current_location", verbose_name="Где находится")
+
+    def __str__(self):
+        return f"{self.name} {self.current_location}"
+
+    class Meta:
+        verbose_name = "Объект аренды"
+        verbose_name_plural = "Объекты аренды"
+        ordering = ["name"]
+
+
 class TelegramUser(models.Model):
     """Telegram User
     https://core.telegram.org/bots/api#chatfullinfo

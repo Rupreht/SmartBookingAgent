@@ -1,7 +1,7 @@
 """Admin Bot Admin"""
 
 from django.contrib import admin
-from .models import ServiceLocation, WorkDay
+from .models import ServiceLocation, WorkDay, RentalObject
 
 
 class ServiceLocationAdmin(admin.ModelAdmin):
@@ -37,9 +37,24 @@ class WorkDayAdmin(admin.ModelAdmin):
     """
 
     list_display = ("__str__", "day", "start_time", "end_time")
-    search_fields = ("day",)
+    search_fields = (
+        "day",
+        "start_time",
+        "end_time",
+    )
     ordering = ("day",)
+
+
+class RentalObjectAdmin(admin.ModelAdmin):
+    """
+    Административный интерфейс для управления объектами аренды.
+    """
+
+    list_display = ("__str__", "minimum_rental_duration")
+    search_fields = ("current_location",)
+    ordering = ("name", "current_location")
 
 
 admin.site.register(ServiceLocation, ServiceLocationAdmin)
 admin.site.register(WorkDay, WorkDayAdmin)
+admin.site.register(RentalObject, RentalObjectAdmin)
