@@ -4,3 +4,7 @@ django-extensions
 
 # Linting
 flake8
+
+# Security
+safety
+bandit

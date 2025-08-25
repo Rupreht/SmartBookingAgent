@@ -1,7 +1,5 @@
-aiogram
-aiosqlite
-django-environ
-django-redis
-Django==5.2.5
-pydantic
-redis
+aiogram>=3.20
+aiosqlite>=0.21.0
+django-environ>=0.12.0
+django>=5,<5.3
+pydantic>=2.11
