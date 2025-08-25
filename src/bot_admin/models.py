@@ -20,6 +20,16 @@ class WorkDay(models.Model):
         (6, "Воскресенье"),
     ]
 
+    DAY_CHOICES_SHORT = [
+        (0, "пн"),
+        (1, "вт"),
+        (2, "ср"),
+        (3, "чт"),
+        (4, "пт"),
+        (5, "сб"),
+        (6, "вс"),
+    ]
+
     day = models.IntegerField(choices=DAY_CHOICES, verbose_name="День недели")
     start_time = models.TimeField(auto_now=False, null=True, blank=True, verbose_name="Время начала работы")
     end_time = models.TimeField(auto_now=False, null=True, blank=True, verbose_name="Время окончания работы")
@@ -36,6 +46,14 @@ class WorkDay(models.Model):
         if self.end_time and time > self.end_time:
             return False
         return True
+
+    def get_human_day(self):
+        "возвращает полное название дня недели"
+        return self.DAY_CHOICES[self.day][1]
+
+    def get_human_short_day(self):
+        "возвращает короткое название дня недели"
+        return self.DAY_CHOICES_SHORT[self.day][1]
 
     class Meta:
         unique_together = ("day", "start_time", "end_time")
@@ -107,6 +125,28 @@ class ServiceLocation(models.Model):
             end = day.end_time.strftime("%H:%M") if day.end_time else "—"
             hours.append(f"{day.get_day_display()} {start}-{end}")
         return ", ".join(hours)
+
+
+class RentalObject(models.Model):
+    """
+    Модель для объекта аренды
+    """
+
+    # Основные поля
+    name = models.CharField(max_length=255, verbose_name="Название")
+    description = models.TextField(blank=True, verbose_name="Описание")
+    minimum_rental_duration = models.TimeField(auto_now=False, null=False, blank=False, verbose_name="Минимальное время аренды")
+    # type_obj =
+    # additional_terms =
+    current_location = models.ManyToManyField(ServiceLocation, blank=True, related_name="current_location", verbose_name="Где находится")
+
+    def __str__(self):
+        return f"{self.name} {self.current_location}"
+
+    class Meta:
+        verbose_name = "Объект аренды"
+        verbose_name_plural = "Объекты аренды"
+        ordering = ["name"]
 
 
 class TelegramUser(models.Model):
