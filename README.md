@@ -1,5 +1,8 @@
 # SmartBookingAgent
 
+[![CI](https://github.com/Rupreht/SmartBookingAgent/actions/workflows/ci.yml/badge.svg)](https://github.com/Rupreht/SmartBookingAgent/actions/workflows/ci.yml)
+[![Security Scan](https://github.com/Rupreht/SmartBookingAgent/actions/workflows/security.yml/badge.svg)](https://github.com/Rupreht/SmartBookingAgent/actions/workflows/security.yml)
+
 ## Описание
 
 SmartBookingAgent — это автоматизированная система бронирования, которая сочетает удобство Telegram-интерфейса
