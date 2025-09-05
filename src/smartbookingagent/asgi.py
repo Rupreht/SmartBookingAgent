@@ -13,4 +13,5 @@ from django.core.asgi import get_asgi_application
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "smartbookingagent.settings")
 
-application = get_asgi_application()
+# for only https://www.netangels.ru, it is not possible to rename the asgi variable to application
+app = get_asgi_application()

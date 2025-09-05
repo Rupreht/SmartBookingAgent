@@ -8,3 +8,4 @@ class SbaAdminConfig(AppConfig):
 
     default_auto_field = "django.db.models.BigAutoField"
     name = "bot_admin"
+    module = "bot_admin"

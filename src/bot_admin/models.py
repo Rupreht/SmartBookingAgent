@@ -1,8 +1,10 @@
 """Bot Admin Models"""
 
+import datetime
 from django.db import models
 from django.utils import timezone
-import datetime
+from django.utils.translation import gettext_lazy as _
+from aiogram.utils.link import create_tg_link
 
 
 class WorkDay(models.Model):
@@ -18,6 +20,16 @@ class WorkDay(models.Model):
         (4, "Пятница"),
         (5, "Суббота"),
         (6, "Воскресенье"),
+    ]
+
+    DAY_CHOICES_SHORT = [
+        (0, "пн"),
+        (1, "вт"),
+        (2, "ср"),
+        (3, "чт"),
+        (4, "пт"),
+        (5, "сб"),
+        (6, "вс"),
     ]
 
     day = models.IntegerField(choices=DAY_CHOICES, verbose_name="День недели")
@@ -36,6 +48,14 @@ class WorkDay(models.Model):
         if self.end_time and time > self.end_time:
             return False
         return True
+
+    def get_human_day(self):
+        "возвращает полное название дня недели"
+        return self.DAY_CHOICES[self.day][1]
+
+    def get_human_short_day(self):
+        "возвращает короткое название дня недели"
+        return self.DAY_CHOICES_SHORT[self.day][1]
 
     class Meta:
         unique_together = ("day", "start_time", "end_time")
@@ -109,19 +129,92 @@ class ServiceLocation(models.Model):
         return ", ".join(hours)
 
 
+class RentalObject(models.Model):
+    """
+    Модель для объекта аренды
+    """
+
+    # Основные поля
+    name = models.CharField(max_length=255, verbose_name="Название")
+    description = models.TextField(blank=True, verbose_name="Описание")
+    minimum_rental_duration = models.TimeField(auto_now=False, null=False, blank=False, verbose_name="Минимальное время аренды")
+    # type_obj =
+    # additional_terms =
+    current_location = models.ManyToManyField(ServiceLocation, blank=True, related_name="current_location", verbose_name="Где находится")
+
+    def __str__(self):
+        return f"{self.name} {self.current_location}"
+
+    class Meta:
+        verbose_name = "Объект аренды"
+        verbose_name_plural = "Объекты аренды"
+        ordering = ["name"]
+
+
 class TelegramUser(models.Model):
     """Telegram User
+    https://core.telegram.org/bots/api#user
+    and
+    https://docs.aiogram.dev/en/latest/_modules/aiogram/types/user.html
+    and
     https://core.telegram.org/bots/api#chatfullinfo
     for ChatFullInfo
     """
 
-    first_name = models.CharField(max_length=64)
-    last_name = models.CharField(max_length=64)
-    username = models.CharField(max_length=32)
-    bio = models.CharField(max_length=70)
-    language_code = models.CharField(max_length=2)
-    is_premium = models.BooleanField()
-    datetime = models.DateTimeField(default=timezone.now)
+    id = models.BigIntegerField(
+        primary_key=True,
+        help_text=_(
+            """
+            Unique identifier for this user or bot.
+            This number may have more than 32 significant bits and some programming
+            languages may have difficulty/silent defects in interpreting it.
+            But it has at most 52 significant bits, so a 64-bit integer or double-precision
+            float type are safe for storing this identifier."""
+        ),
+    )
+    is_bot = models.BooleanField(help_text=_("True, if this user is a bot"))
+    first_name = models.CharField(max_length=64, help_text=_("User's or bot's first name"))
+    last_name = models.CharField(max_length=64, blank=True, null=True, help_text=_("Optional. User's or bot's last name"))
+    username = models.CharField(max_length=32, blank=True, null=True, help_text=_("Optional. User's or bot's username"))
+    language_code = models.CharField(
+        max_length=15, blank=True, null=True, help_text=_("Optional. IETF language tag of the user's language")
+    )
+    is_premium = models.BooleanField(null=True, blank=True, help_text=_("Optional. True, if this user is a Telegram Premium user"))
+    added_to_attachment_menu = models.BooleanField(
+        null=True, blank=True, help_text=_("Optional. True, if this user added the bot to the attachment menu")
+    )
+    can_join_groups = models.BooleanField(
+        null=True, blank=True, help_text=_("Optional. True, if the bot can be invited to groups. Returned only in getMe.")
+    )
+    can_read_all_group_messages = models.BooleanField(
+        null=True, blank=True, help_text=_("Optional. True, if privacy mode is disabled for the bot. Returned only in getMe.")
+    )
+    supports_inline_queries = models.BooleanField(
+        null=True, blank=True, help_text=_("Optional. True, if the bot supports inline queries. Returned only in getMe.")
+    )
+    can_connect_to_business = models.BooleanField(
+        null=True,
+        blank=True,
+        help_text=_(
+            """Optional. True, if the bot can be connected to a Telegram Business
+            account to receive its messages.
+            Returned only in getMe."""
+        ),
+    )
+    has_main_web_app = models.BooleanField(
+        null=True, blank=True, help_text=_("Optional. True, if the bot has a main Web App. Returned only in getMe.")
+    )
+    datetime_joined = models.DateTimeField(default=timezone.now)
+
+    def full_name(self) -> str:
+        "Return User Full Name"
+        if self.last_name:
+            return f"{self.first_name} {self.last_name}"
+        return self.first_name
+
+    def url(self) -> str:
+        "Return User TG URL"
+        return create_tg_link(self.username, id=self.id)
 
 
 class TelegramUserProfilePhotos(models.Model):

@@ -1,0 +1,88 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-06 00:15+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+#: src/bot_admin/models.py:165
+msgid ""
+"\n"
+"            Unique identifier for this user or bot.\n"
+"            This number may have more than 32 significant bits and some "
+"programming\n"
+"            languages may have difficulty/silent defects in interpreting "
+"it.\n"
+"            But it has at most 52 significant bits, so a 64-bit integer or "
+"double-precision\n"
+"            float type are safe for storing this identifier."
+msgstr ""
+
+#: src/bot_admin/models.py:173
+msgid "True, if this user is a bot"
+msgstr ""
+
+#: src/bot_admin/models.py:174
+msgid "User's or bot's first name"
+msgstr ""
+
+#: src/bot_admin/models.py:175
+msgid "Optional. User's or bot's last name"
+msgstr ""
+
+#: src/bot_admin/models.py:176
+msgid "Optional. User's or bot's username"
+msgstr ""
+
+#: src/bot_admin/models.py:178
+msgid "Optional. IETF language tag of the user's language"
+msgstr ""
+
+#: src/bot_admin/models.py:180
+msgid "Optional. True, if this user is a Telegram Premium user"
+msgstr ""
+
+#: src/bot_admin/models.py:182
+msgid "Optional. True, if this user added the bot to the attachment menu"
+msgstr ""
+
+#: src/bot_admin/models.py:185
+msgid ""
+"Optional. True, if the bot can be invited to groups. Returned only in getMe."
+msgstr ""
+
+#: src/bot_admin/models.py:188
+msgid ""
+"Optional. True, if privacy mode is disabled for the bot. Returned only in "
+"getMe."
+msgstr ""
+
+#: src/bot_admin/models.py:191
+msgid ""
+"Optional. True, if the bot supports inline queries. Returned only in getMe."
+msgstr ""
+
+#: src/bot_admin/models.py:197
+msgid ""
+"Optional. True, if the bot can be connected to a Telegram Business\n"
+"            account to receive its messages.\n"
+"            Returned only in getMe."
+msgstr "Необязательный параметр. По умолчанию true, если бот может быть подключен к бизнес-аккаунту Telegram для получения его сообщений. Возвращается только в getMe."
+
+#: src/bot_admin/models.py:203
+msgid "Optional. True, if the bot has a main Web App. Returned only in getMe."
+msgstr "Необязательный параметр. По умолчанию true, если у бота есть основное веб-приложение. Возвращается только в getMe."

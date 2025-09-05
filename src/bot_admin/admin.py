@@ -1,7 +1,7 @@
 """Admin Bot Admin"""
 
 from django.contrib import admin
-from .models import ServiceLocation, WorkDay
+from .models import ServiceLocation, WorkDay, RentalObject, TelegramUser
 
 
 class ServiceLocationAdmin(admin.ModelAdmin):
@@ -37,9 +37,40 @@ class WorkDayAdmin(admin.ModelAdmin):
     """
 
     list_display = ("__str__", "day", "start_time", "end_time")
-    search_fields = ("day",)
+    search_fields = (
+        "day",
+        "start_time",
+        "end_time",
+    )
     ordering = ("day",)
+
+
+class RentalObjectAdmin(admin.ModelAdmin):
+    """
+    Административный интерфейс для управления объектами аренды.
+    """
+
+    list_display = ("__str__", "minimum_rental_duration")
+    search_fields = ("current_location",)
+    ordering = ("name", "current_location")
+
+
+class TelegramUserAdmin(admin.ModelAdmin):
+    """
+    Административный интерфейс для управления пользователями Telegram.
+    """
+
+    list_display = ("username", "first_name", "last_name", "is_premium")
+    search_fields = ("username", "first_name", "last_name", "id")
+    list_filter = ("is_premium",)
+    readonly_fields = ("id", "datetime_joined")
+
+    def has_add_permission(self, request):
+        """Запретить добавление пользователей вручную"""
+        return False
 
 
 admin.site.register(ServiceLocation, ServiceLocationAdmin)
 admin.site.register(WorkDay, WorkDayAdmin)
+admin.site.register(RentalObject, RentalObjectAdmin)
+admin.site.register(TelegramUser, TelegramUserAdmin)
