@@ -1,0 +1,14 @@
+[run]
+# Указывает корневую директорию проекта (src)
+source = src
+
+omit =
+    */migrations/*
+    */tests/*
+    */venv/*
+    */__init__.py
+    manage.py
+
+[report]
+# Показывает непокрытые строки
+show_missing = True

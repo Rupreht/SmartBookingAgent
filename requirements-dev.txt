@@ -1,8 +1,14 @@
 # development
+coverage
+django-coverage
 django-debug-toolbar
 django-extensions
+pytest
+pytest-asyncio
+pytest-cov
 
 # Linting
+black
 flake8
 
 # Security
