@@ -2,6 +2,7 @@
 
 from django.core.management.base import BaseCommand
 from bot_admin.models import TelegramUser
+import random  # Добавлен импорт модуля random
 
 
 class Command(BaseCommand):
@@ -15,14 +16,14 @@ class Command(BaseCommand):
         parser.add_argument("number", type=int, help="Количество тестовых пользователей для создания")
 
     def handle(self, *args, **kwargs) -> None:
-        count = args[0] if args else 10
+        count = kwargs["number"] if "number" in kwargs else 10
         self.setup_test_telegram_users(count)
 
     def setup_test_telegram_users(self, count=10):
         "Заполняет модель TelegramUser тестовыми данными"
         test_users = [
             {
-                "id": 1000000000 + i,
+                "id": random.randint(1000000000, 2000000000),  # Изменено формирование id
                 "is_bot": False,
                 "first_name": f"User{i}",
                 "username": f"testuser{i}" if i % 2 == 0 else None,
@@ -33,10 +34,10 @@ class Command(BaseCommand):
             }
             for i in range(0, count)
         ]
-        count = 0
+        created_count = 0  # Переименована переменная для избежания конфликта с параметром count
         for user_data in test_users:
             _, created = TelegramUser.objects.get_or_create(**user_data)
             if created:
-                count += 1
-        self.stdout.write(self.style.SUCCESS(f"Successfully created {count} test Telegram users"))
+                created_count += 1
+        self.stdout.write(self.style.SUCCESS(f"Successfully created {created_count} test Telegram users"))
         return True

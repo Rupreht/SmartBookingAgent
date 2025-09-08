@@ -137,7 +137,7 @@ LANGUAGES = (
 )
 LOCALE_PATHS = [
     BASE_DIR / "bot_admin/locale",
-    BASE_DIR / "smartbookingagent/locale",
+    # BASE_DIR / "smartbookingagent/locale",
 ]
 
 TIME_ZONE = env.str("TIME_ZONE", default="UTC")

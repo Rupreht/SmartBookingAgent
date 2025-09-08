@@ -1,0 +1,8 @@
+#!/bin/sh
+
+export DEBUG=0
+set -x
+flake8
+black --line-length=140 --exclude "migrations/*" src/
+pylint src/
+python manage.py check --deploy --fail-level WARNING bot_admin

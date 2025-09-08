@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-06 00:15+0500\n"
+"POT-Creation-Date: 2025-09-09 00:42+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,64 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
-#: src/bot_admin/models.py:165
+
+#: src/bot_admin/models.py:16
+msgid "Monday"
+msgstr "Понедельник"
+
+#: src/bot_admin/models.py:17
+msgid "Tuesday"
+msgstr "Вторник"
+
+#: src/bot_admin/models.py:18
+msgid "Wednesday"
+msgstr "Среда"
+
+#: src/bot_admin/models.py:19
+msgid "Thursday"
+msgstr "Четверг"
+
+#: src/bot_admin/models.py:20
+msgid "Friday"
+msgstr "Пятница"
+
+#: src/bot_admin/models.py:21
+msgid "Saturday"
+msgstr "Суббота"
+
+#: src/bot_admin/models.py:22
+msgid "Sunday"
+msgstr "Воскресенье"
+
+#: src/bot_admin/models.py:26
+msgid "Mon"
+msgstr "пн"
+
+#: src/bot_admin/models.py:27
+msgid "Tue"
+msgstr "вт"
+
+#: src/bot_admin/models.py:28
+msgid "Wed"
+msgstr "ср"
+
+#: src/bot_admin/models.py:29
+msgid "Thu"
+msgstr "чт"
+
+#: src/bot_admin/models.py:30
+msgid "Fri"
+msgstr "пт"
+
+#: src/bot_admin/models.py:31
+msgid "Sat"
+msgstr "сб"
+
+#: src/bot_admin/models.py:32
+msgid "Sun"
+msgstr "вс"
+
+#: src/bot_admin/models.py:167
 msgid ""
 "\n"
 "            Unique identifier for this user or bot.\n"
@@ -32,57 +89,62 @@ msgid ""
 "            float type are safe for storing this identifier."
 msgstr ""
 
-#: src/bot_admin/models.py:173
-msgid "True, if this user is a bot"
-msgstr ""
-
-#: src/bot_admin/models.py:174
-msgid "User's or bot's first name"
-msgstr ""
-
 #: src/bot_admin/models.py:175
-msgid "Optional. User's or bot's last name"
-msgstr ""
+msgid "True, if this user is a bot"
+msgstr "Истина, если аккаунт бот"
 
 #: src/bot_admin/models.py:176
-msgid "Optional. User's or bot's username"
-msgstr ""
+msgid "User's or bot's first name"
+msgstr "Имя"
+
+#: src/bot_admin/models.py:177
+msgid "Optional. User's or bot's last name"
+msgstr "Фамилия"
 
 #: src/bot_admin/models.py:178
-msgid "Optional. IETF language tag of the user's language"
-msgstr ""
+msgid "Optional. User's or bot's username"
+msgstr "Имя пользователя"
 
 #: src/bot_admin/models.py:180
-msgid "Optional. True, if this user is a Telegram Premium user"
-msgstr ""
+msgid "Optional. IETF language tag of the user's language"
+msgstr "тег (IETF) языка на котором обращается пользователь"
 
 #: src/bot_admin/models.py:182
+msgid "Optional. True, if this user is a Telegram Premium user"
+msgstr "Истина, если Premium аккаунт"
+
+#: src/bot_admin/models.py:184
 msgid "Optional. True, if this user added the bot to the attachment menu"
 msgstr ""
 
-#: src/bot_admin/models.py:185
+#: src/bot_admin/models.py:187
 msgid ""
 "Optional. True, if the bot can be invited to groups. Returned only in getMe."
 msgstr ""
 
-#: src/bot_admin/models.py:188
+#: src/bot_admin/models.py:190
 msgid ""
 "Optional. True, if privacy mode is disabled for the bot. Returned only in "
 "getMe."
 msgstr ""
 
-#: src/bot_admin/models.py:191
+#: src/bot_admin/models.py:193
 msgid ""
 "Optional. True, if the bot supports inline queries. Returned only in getMe."
 msgstr ""
 
-#: src/bot_admin/models.py:197
+#: src/bot_admin/models.py:199
 msgid ""
 "Optional. True, if the bot can be connected to a Telegram Business\n"
 "            account to receive its messages.\n"
 "            Returned only in getMe."
-msgstr "Необязательный параметр. По умолчанию true, если бот может быть подключен к бизнес-аккаунту Telegram для получения его сообщений. Возвращается только в getMe."
+msgstr ""
+"Необязательный параметр. По умолчанию true, если бот может быть подключен к "
+"бизнес-аккаунту Telegram для получения его сообщений. Возвращается только в "
+"getMe."
 
-#: src/bot_admin/models.py:203
+#: src/bot_admin/models.py:205
 msgid "Optional. True, if the bot has a main Web App. Returned only in getMe."
-msgstr "Необязательный параметр. По умолчанию true, если у бота есть основное веб-приложение. Возвращается только в getMe."
+msgstr ""
+"Необязательный параметр. По умолчанию true, если у бота есть основное веб-"
+"приложение. Возвращается только в getMe."
