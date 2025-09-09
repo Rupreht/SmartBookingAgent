@@ -82,3 +82,9 @@ ln -s docs/howto/dev/test_linters test_linters
 ```
 
 [see code](test_linters)
+
+## Зависимости для MacOS
+
+```bash
+pip install psycopg2-binary
+```
