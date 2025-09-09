@@ -5,6 +5,9 @@ ignore = migrations
 django-settings-module = smartbookingagent.settings
 function-rgx=[a-z_][a-z0-9_]{3,40}$
 max-line-length = 140
+recursive = y
+source-roots = ./src
+py-version = 3.12
 
 [MESSAGES CONTROL]
 disable = C0411,C0415,W0107

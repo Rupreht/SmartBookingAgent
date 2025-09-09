@@ -4,6 +4,7 @@ from django.contrib import admin
 from .models import ServiceLocation, WorkDay, RentalObject, TelegramUser
 
 
+@admin.register(ServiceLocation)
 class ServiceLocationAdmin(admin.ModelAdmin):
     """
     Административный интерфейс для управления местами оказания услуг.
@@ -14,23 +15,22 @@ class ServiceLocationAdmin(admin.ModelAdmin):
     filter_horizontal = ("available_days",)
     readonly_fields = ("get_address",)
 
+    @admin.display(description="График работы")
     def get_working_hours(self, obj):
         """
         Отображение графика работы в админ-панели
         """
         return obj.get_working_hours()
 
-    get_working_hours.short_description = "График работы"
-
+    @admin.display(description="Полный адрес")
     def get_address(self, obj):
         """
         Форматированный адрес для просмотра
         """
         return obj.get_address()
 
-    get_address.short_description = "Полный адрес"
 
-
+@admin.register(WorkDay)
 class WorkDayAdmin(admin.ModelAdmin):
     """
     Административный интерфейс для управления днями недели.
@@ -45,6 +45,7 @@ class WorkDayAdmin(admin.ModelAdmin):
     ordering = ("day",)
 
 
+@admin.register(RentalObject)
 class RentalObjectAdmin(admin.ModelAdmin):
     """
     Административный интерфейс для управления объектами аренды.
@@ -55,6 +56,7 @@ class RentalObjectAdmin(admin.ModelAdmin):
     ordering = ("name", "current_location")
 
 
+@admin.register(TelegramUser)
 class TelegramUserAdmin(admin.ModelAdmin):
     """
     Административный интерфейс для управления пользователями Telegram.
@@ -68,9 +70,3 @@ class TelegramUserAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         """Запретить добавление пользователей вручную"""
         return False
-
-
-admin.site.register(ServiceLocation, ServiceLocationAdmin)
-admin.site.register(WorkDay, WorkDayAdmin)
-admin.site.register(RentalObject, RentalObjectAdmin)
-admin.site.register(TelegramUser, TelegramUserAdmin)

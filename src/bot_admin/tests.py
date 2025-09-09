@@ -1,9 +1,12 @@
 # pylint: disable=C0116
 "Tests"
+
+import datetime
+
 from django.test import TestCase
 from django.utils import timezone
-from .models import WorkDay, ServiceLocation
-import datetime
+
+from .models import ServiceLocation, WorkDay
 
 
 class WorkDayTestCase(TestCase):
@@ -36,7 +39,12 @@ class ServiceLocationTestCase(TestCase):
     def setUp(self):
         self.workday = WorkDay.objects.create(day=0, start_time=datetime.time(8, 0), end_time=datetime.time(19, 0))
         self.service_location = ServiceLocation.objects.create(
-            name="Test Location", city="Москва", rest_of_address="ул. Примерная, д. 1", latitude=55.7558, longitude=37.6173, capacity=10
+            name="Test Location",
+            city="Москва",
+            rest_of_address="ул. Примерная, д. 1",
+            latitude=55.7558,
+            longitude=37.6173,
+            capacity=10,
         )
         self.service_location.available_days.add(self.workday)
 
