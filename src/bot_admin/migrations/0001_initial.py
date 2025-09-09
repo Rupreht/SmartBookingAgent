@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = []
@@ -15,7 +14,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="TelegramUser",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("first_name", models.CharField(max_length=64)),
                 ("last_name", models.CharField(max_length=64)),
                 ("username", models.CharField(max_length=32)),
@@ -28,19 +35,41 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="TelegramUserProfilePhotos",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("file_id", models.CharField()),
                 ("file_unique_id", models.CharField()),
                 ("width", models.SmallIntegerField()),
                 ("height", models.SmallIntegerField()),
                 ("file_size", models.SmallIntegerField()),
-                ("tg_user_id", models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="bot_admin.telegramuser")),
+                (
+                    "tg_user_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="bot_admin.telegramuser",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name="WorkDay",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "day",
                     models.IntegerField(
@@ -56,8 +85,14 @@ class Migration(migrations.Migration):
                         verbose_name="День недели",
                     ),
                 ),
-                ("start_time", models.TimeField(blank=True, null=True, verbose_name="Время начала работы")),
-                ("end_time", models.TimeField(blank=True, null=True, verbose_name="Время окончания работы")),
+                (
+                    "start_time",
+                    models.TimeField(blank=True, null=True, verbose_name="Время начала работы"),
+                ),
+                (
+                    "end_time",
+                    models.TimeField(blank=True, null=True, verbose_name="Время окончания работы"),
+                ),
             ],
             options={
                 "verbose_name": "Рабочее время",
@@ -69,18 +104,62 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="ServiceLocation",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("name", models.CharField(max_length=255, verbose_name="Название места")),
-                ("description", models.TextField(blank=True, verbose_name="Описание места")),
-                ("city", models.CharField(blank=True, max_length=255, verbose_name="Город")),
-                ("rest_of_address", models.CharField(blank=True, max_length=512, verbose_name="Улица, дом, квартира")),
-                ("latitude", models.DecimalField(blank=True, decimal_places=6, max_digits=9, null=True, verbose_name="Широта")),
-                ("longitude", models.DecimalField(blank=True, decimal_places=6, max_digits=9, null=True, verbose_name="Долгота")),
-                ("capacity", models.PositiveIntegerField(default=1, verbose_name="Вместимость")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=255, verbose_name="Название места"),
+                ),
+                (
+                    "description",
+                    models.TextField(blank=True, verbose_name="Описание места"),
+                ),
+                (
+                    "city",
+                    models.CharField(blank=True, max_length=255, verbose_name="Город"),
+                ),
+                (
+                    "rest_of_address",
+                    models.CharField(blank=True, max_length=512, verbose_name="Улица, дом, квартира"),
+                ),
+                (
+                    "latitude",
+                    models.DecimalField(
+                        blank=True,
+                        decimal_places=6,
+                        max_digits=9,
+                        null=True,
+                        verbose_name="Широта",
+                    ),
+                ),
+                (
+                    "longitude",
+                    models.DecimalField(
+                        blank=True,
+                        decimal_places=6,
+                        max_digits=9,
+                        null=True,
+                        verbose_name="Долгота",
+                    ),
+                ),
+                (
+                    "capacity",
+                    models.PositiveIntegerField(default=1, verbose_name="Вместимость"),
+                ),
                 (
                     "available_days",
                     models.ManyToManyField(
-                        blank=True, related_name="service_locations", to="bot_admin.workday", verbose_name="Доступные дни недели"
+                        blank=True,
+                        related_name="service_locations",
+                        to="bot_admin.workday",
+                        verbose_name="Доступные дни недели",
                     ),
                 ),
             ],

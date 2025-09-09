@@ -1,8 +1,9 @@
 """Bot Admin Models"""
 
+import datetime
+
 from django.db import models
 from django.utils import timezone
-import datetime
 
 
 class WorkDay(models.Model):
@@ -59,7 +60,12 @@ class ServiceLocation(models.Model):
     capacity = models.PositiveIntegerField(default=1, verbose_name="Вместимость")
 
     # Временные параметры
-    available_days = models.ManyToManyField(WorkDay, blank=True, related_name="service_locations", verbose_name="Доступные дни недели")
+    available_days = models.ManyToManyField(
+        WorkDay,
+        blank=True,
+        related_name="service_locations",
+        verbose_name="Доступные дни недели",
+    )
 
     class Meta:
         verbose_name = "Место оказания услуги"

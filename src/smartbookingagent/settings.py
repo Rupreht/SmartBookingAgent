@@ -11,10 +11,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
-import environ
 from pathlib import Path
-from django.core.management.utils import get_random_secret_key
+
+import environ
 from django.core.exceptions import ImproperlyConfigured
+from django.core.management.utils import get_random_secret_key
 
 
 def location(x):

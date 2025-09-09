@@ -1,9 +1,11 @@
 """Admin Bot Admin"""
 
 from django.contrib import admin
+
 from .models import ServiceLocation, WorkDay
 
 
+@admin.register(ServiceLocation)
 class ServiceLocationAdmin(admin.ModelAdmin):
     """
     Административный интерфейс для управления местами оказания услуг.
@@ -14,23 +16,22 @@ class ServiceLocationAdmin(admin.ModelAdmin):
     filter_horizontal = ("available_days",)
     readonly_fields = ("get_address",)
 
+    @admin.display(description="График работы")
     def get_working_hours(self, obj):
         """
         Отображение графика работы в админ-панели
         """
         return obj.get_working_hours()
 
-    get_working_hours.short_description = "График работы"
-
+    @admin.display(description="Полный адрес")
     def get_address(self, obj):
         """
         Форматированный адрес для просмотра
         """
         return obj.get_address()
 
-    get_address.short_description = "Полный адрес"
 
-
+@admin.register(WorkDay)
 class WorkDayAdmin(admin.ModelAdmin):
     """
     Административный интерфейс для управления днями недели.
@@ -39,7 +40,3 @@ class WorkDayAdmin(admin.ModelAdmin):
     list_display = ("__str__", "day", "start_time", "end_time")
     search_fields = ("day",)
     ordering = ("day",)
-
-
-admin.site.register(ServiceLocation, ServiceLocationAdmin)
-admin.site.register(WorkDay, WorkDayAdmin)
