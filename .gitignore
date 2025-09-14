@@ -202,4 +202,5 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
-/static
+/static/
+/media/

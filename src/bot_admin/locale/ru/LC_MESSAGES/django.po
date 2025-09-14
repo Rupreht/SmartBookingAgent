@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-09 00:42+0500\n"
+"POT-Creation-Date: 2025-09-11 01:45+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,63 +20,97 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: src/bot_admin/models.py:16
+#: src/bot_admin/models.py:20
 msgid "Monday"
 msgstr "Понедельник"
 
-#: src/bot_admin/models.py:17
+#: src/bot_admin/models.py:21
 msgid "Tuesday"
 msgstr "Вторник"
 
-#: src/bot_admin/models.py:18
+#: src/bot_admin/models.py:22
 msgid "Wednesday"
 msgstr "Среда"
 
-#: src/bot_admin/models.py:19
+#: src/bot_admin/models.py:23
 msgid "Thursday"
 msgstr "Четверг"
 
-#: src/bot_admin/models.py:20
+#: src/bot_admin/models.py:24
 msgid "Friday"
 msgstr "Пятница"
 
-#: src/bot_admin/models.py:21
+#: src/bot_admin/models.py:25
 msgid "Saturday"
 msgstr "Суббота"
 
-#: src/bot_admin/models.py:22
+#: src/bot_admin/models.py:26
 msgid "Sunday"
 msgstr "Воскресенье"
 
-#: src/bot_admin/models.py:26
+#: src/bot_admin/models.py:30
 msgid "Mon"
 msgstr "пн"
 
-#: src/bot_admin/models.py:27
+#: src/bot_admin/models.py:31
 msgid "Tue"
 msgstr "вт"
 
-#: src/bot_admin/models.py:28
+#: src/bot_admin/models.py:32
 msgid "Wed"
 msgstr "ср"
 
-#: src/bot_admin/models.py:29
+#: src/bot_admin/models.py:33
 msgid "Thu"
 msgstr "чт"
 
-#: src/bot_admin/models.py:30
+#: src/bot_admin/models.py:34
 msgid "Fri"
 msgstr "пт"
 
-#: src/bot_admin/models.py:31
+#: src/bot_admin/models.py:35
 msgid "Sat"
 msgstr "сб"
 
-#: src/bot_admin/models.py:32
+#: src/bot_admin/models.py:36
 msgid "Sun"
 msgstr "вс"
 
-#: src/bot_admin/models.py:167
+#: src/bot_admin/models.py:147
+msgid "Car"
+msgstr ""
+
+#: src/bot_admin/models.py:148
+msgid "Equipment"
+msgstr ""
+
+#: src/bot_admin/models.py:149
+msgid "Kite"
+msgstr ""
+
+#: src/bot_admin/models.py:150
+msgid "Bike"
+msgstr ""
+
+#: src/bot_admin/models.py:151
+#, fuzzy
+#| msgid "Sat"
+msgid "Spa"
+msgstr "сб"
+
+#: src/bot_admin/models.py:152
+msgid "Property"
+msgstr ""
+
+#: src/bot_admin/models.py:153
+msgid "Wake Board"
+msgstr ""
+
+#: src/bot_admin/models.py:154
+msgid "other"
+msgstr ""
+
+#: src/bot_admin/models.py:247
 msgid ""
 "\n"
 "            Unique identifier for this user or bot.\n"
@@ -89,51 +123,51 @@ msgid ""
 "            float type are safe for storing this identifier."
 msgstr ""
 
-#: src/bot_admin/models.py:175
+#: src/bot_admin/models.py:255
 msgid "True, if this user is a bot"
 msgstr "Истина, если аккаунт бот"
 
-#: src/bot_admin/models.py:176
+#: src/bot_admin/models.py:256
 msgid "User's or bot's first name"
 msgstr "Имя"
 
-#: src/bot_admin/models.py:177
+#: src/bot_admin/models.py:257
 msgid "Optional. User's or bot's last name"
 msgstr "Фамилия"
 
-#: src/bot_admin/models.py:178
+#: src/bot_admin/models.py:258
 msgid "Optional. User's or bot's username"
 msgstr "Имя пользователя"
 
-#: src/bot_admin/models.py:180
+#: src/bot_admin/models.py:260
 msgid "Optional. IETF language tag of the user's language"
 msgstr "тег (IETF) языка на котором обращается пользователь"
 
-#: src/bot_admin/models.py:182
+#: src/bot_admin/models.py:262
 msgid "Optional. True, if this user is a Telegram Premium user"
 msgstr "Истина, если Premium аккаунт"
 
-#: src/bot_admin/models.py:184
+#: src/bot_admin/models.py:264
 msgid "Optional. True, if this user added the bot to the attachment menu"
 msgstr ""
 
-#: src/bot_admin/models.py:187
+#: src/bot_admin/models.py:267
 msgid ""
 "Optional. True, if the bot can be invited to groups. Returned only in getMe."
 msgstr ""
 
-#: src/bot_admin/models.py:190
+#: src/bot_admin/models.py:270
 msgid ""
 "Optional. True, if privacy mode is disabled for the bot. Returned only in "
 "getMe."
 msgstr ""
 
-#: src/bot_admin/models.py:193
+#: src/bot_admin/models.py:273
 msgid ""
 "Optional. True, if the bot supports inline queries. Returned only in getMe."
 msgstr ""
 
-#: src/bot_admin/models.py:199
+#: src/bot_admin/models.py:279
 msgid ""
 "Optional. True, if the bot can be connected to a Telegram Business\n"
 "            account to receive its messages.\n"
@@ -143,7 +177,7 @@ msgstr ""
 "бизнес-аккаунту Telegram для получения его сообщений. Возвращается только в "
 "getMe."
 
-#: src/bot_admin/models.py:205
+#: src/bot_admin/models.py:285
 msgid "Optional. True, if the bot has a main Web App. Returned only in getMe."
 msgstr ""
 "Необязательный параметр. По умолчанию true, если у бота есть основное веб-"

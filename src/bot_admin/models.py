@@ -5,6 +5,10 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from aiogram.utils.link import create_tg_link
+from django.core.validators import MinValueValidator, FileExtensionValidator
+from django.core.exceptions import ValidationError
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 
 
 class WorkDay(models.Model):
@@ -22,15 +26,15 @@ class WorkDay(models.Model):
         (6, _("Sunday")),
     ]
 
-    DAY_CHOICES_SHORT = [
-        (0, _("Mon")),
-        (1, _("Tue")),
-        (2, _("Wed")),
-        (3, _("Thu")),
-        (4, _("Fri")),
-        (5, _("Sat")),
-        (6, _("Sun")),
-    ]
+    SHORT_DAY_CHOICES = {
+        0: _("Mon"),
+        1: _("Tue"),
+        2: _("Wed"),
+        3: _("Thu"),
+        4: _("Fri"),
+        5: _("Sat"),
+        6: _("Sun"),
+    }
 
     day = models.IntegerField(choices=DAY_CHOICES, verbose_name="День недели")
     start_time = models.TimeField(auto_now=False, null=True, blank=True, verbose_name="Время начала работы")
@@ -55,7 +59,7 @@ class WorkDay(models.Model):
 
     def get_human_short_day(self):
         "возвращает короткое название дня недели"
-        return self.DAY_CHOICES_SHORT[self.day][1]
+        return self.SHORT_DAY_CHOICES.get(self.day, "")
 
     class Meta:
         unique_together = ("day", "start_time", "end_time")
@@ -139,21 +143,90 @@ class RentalObject(models.Model):
     Модель для объекта аренды
     """
 
+    OBJECT_TYPES = (
+        ("car", _("Car")),
+        ("equipment", _("Equipment")),
+        ("kite", _("Kite")),
+        ("moto", _("Bike")),
+        ("Spa", _("Spa")),
+        ("property", _("Property")),
+        ("wakeBoard", _("Wake Board")),
+        ("other", _("other")),
+    )
+
     # Основные поля
     name = models.CharField(max_length=255, verbose_name="Название")
     description = models.TextField(blank=True, verbose_name="Описание")
-    minimum_rental_duration = models.TimeField(auto_now=False, null=False, blank=False, verbose_name="Минимальное время аренды")
-    # type_obj =
-    # additional_terms =
+    minimum_rental_duration = models.DurationField(
+        validators=[MinValueValidator(datetime.timedelta(seconds=600))], null=False, blank=False, verbose_name="Минимальное время аренды"
+    )
+    type_obj = models.CharField(max_length=20, choices=OBJECT_TYPES, default="other", verbose_name="Тип объекта")
+    additional_terms = models.TextField(blank=True, null=True, verbose_name="Дополнительные условия")
     current_location = models.ManyToManyField(ServiceLocation, blank=True, related_name="current_location", verbose_name="Где находится")
+    price_per_day = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.01)], verbose_name="Цена за день")
+    is_available = models.BooleanField(default=True, verbose_name="Доступен для аренды")
 
     def __str__(self):
-        return f"{self.name} {self.current_location}"
+        locations = ", ".join([loc.name for loc in self.current_location.all()])
+        return f"{self.name} ({locations})"
+
+    @property
+    def main_image(self):
+        """Получение первого изображения для превью"""
+        return self.images.first().image.url if self.images.exists() else None
+
+    def get_image_urls(self):
+        """Список URL всех изображений"""
+        return [img.image.url for img in self.images.all()]
+
+    def save(self, *args, **kwargs):
+        """Валидация при сохранении объекта"""
+        super().save(*args, **kwargs)
+
+        if self.images.count() > 10:
+            raise ValidationError("Максимальное количество изображений - 10")
+
+    def short_description(self):
+        """Краткое описание (первые 100 символов)"""
+        return self.description[:100] + "..." if len(self.description) > 100 else self.description
 
     class Meta:
         verbose_name = "Объект аренды"
         verbose_name_plural = "Объекты аренды"
         ordering = ["name"]
+        indexes = [
+            models.Index(fields=["type_obj", "is_available"]),
+        ]
+
+
+class RentalObjectImage(models.Model):
+    """Модель для хранения изображений объекта аренды"""
+
+    rental_object = models.ForeignKey(RentalObject, on_delete=models.CASCADE, related_name="images")
+    image = models.ImageField(
+        upload_to="rental_objects/%Y/%m/%d/",
+        verbose_name="Изображение",
+        validators=[FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png"])],
+    )
+    order = models.PositiveIntegerField(default=0, verbose_name="Порядок сортировки")
+
+    def __str__(self):
+        return f"Изображение {self.order} для {self.rental_object.name}"
+
+    def save(self, *args, **kwargs):
+        """Автоматическая нумерация изображений"""
+        if not self.pk:
+            last_order = (
+                RentalObjectImage.objects.filter(rental_object=self.rental_object).aggregate(models.Max("order"))["order__max"] or 0
+            )
+            self.order = last_order + 1
+        super().save(*args, **kwargs)
+
+
+@receiver(post_delete, sender=RentalObjectImage)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    if instance.image:
+        instance.image.delete(save=False)
 
 
 class TelegramUser(models.Model):
@@ -237,3 +310,45 @@ class TelegramUserProfilePhotos(models.Model):
     height = models.SmallIntegerField()
     # in bytes
     file_size = models.SmallIntegerField()
+
+
+class RegistrationBook(models.Model):
+    "объект для регистрации бронирования"
+
+    user = models.ForeignKey(TelegramUser, on_delete=models.CASCADE)
+    rental_object = models.ForeignKey(RentalObject, on_delete=models.CASCADE)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    start_datetime = models.DateTimeField()
+    end_datetime = models.DateTimeField()
+    is_confirmed = models.BooleanField(default=False)
+    payment_id = models.CharField(max_length=255, blank=True)  # ID транзакции
+    amount = models.DecimalField(max_digits=10, decimal_places=2)  # Сумма оплаты
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"#{self.user.url} - {self.rental_object.name}"
+
+    @property
+    def duration_days(self):
+        """Количество дней аренды"""
+        delta = self.end_date - self.start_date
+        return delta.days
+
+    def calculate_total_price(self):
+        """Расчёт общей стоимости"""
+        return self.rental_object.price_per_day * self.duration_days
+
+    def current_location(self) -> str:
+        """Место выдачи услуги"""
+        return self.rental_object.current_location
+
+    class Meta:
+        verbose_name = "Бронирование"
+        verbose_name_plural = "Бронирования"
+        indexes = [
+            models.Index(fields=["user", "rental_object"]),
+            models.Index(fields=["start_date", "end_date"]),
+            models.Index(fields=["start_datetime", "end_datetime"]),
+        ]

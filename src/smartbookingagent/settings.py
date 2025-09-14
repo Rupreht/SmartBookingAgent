@@ -76,8 +76,9 @@ TEMPLATES = [
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.media",
+                "django.contrib.auth.context_processors.auth",
             ],
         },
     },
@@ -89,6 +90,10 @@ WSGI_APPLICATION = "smartbookingagent.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    },
     "production": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": env.str("DATABASE_NAME", default=""),
@@ -100,10 +105,6 @@ DATABASES = {
         "CONN_HEALTH_CHECKS": env.bool("DATABASE_CONN_HEALTH_CHECKS", default=True),
         "TIME_ZONE": env.str("DATABASE_TIME_ZONE", default="UTC"),
         "CHARSET": env.str("DATABASE_CHARSET", default="UTF8"),
-    },
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
     },
 }
 
@@ -185,3 +186,6 @@ else:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_TRUSTED_ORIGINS = ["https://*.e365.ru"]
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = env.str("MEDIA_ROOT", default="media")

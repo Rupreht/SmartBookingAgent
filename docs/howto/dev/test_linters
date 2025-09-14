@@ -2,6 +2,8 @@
 
 export DEBUG=0
 set -x
+
+pre-commit run --all-files
 flake8
 black --line-length=140 --exclude "migrations/*" src/
 pylint src/
