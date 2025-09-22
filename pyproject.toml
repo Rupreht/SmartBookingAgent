@@ -52,7 +52,7 @@ optional-dependencies.test = [
   "pytest-django>=4.9,<5",
   "pytest-xdist>=3.6.1,<4",
   "webtest>=3,<4",
-  "whitenoise>=6.7,<6.11",
+  "whitenoise>=6.7,<6.12",
   "whoosh>=2.7,<2.8",
 ]
 
