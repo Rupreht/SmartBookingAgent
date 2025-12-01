@@ -36,7 +36,7 @@ optional-dependencies.docs = [
   "sphinx>=5",
   "sphinx-issues==5.0.1",
   "sphinx-rtd-theme==3.0.2",
-  "sphinxcontrib-spelling==8.0.1",
+  "sphinxcontrib-spelling==8.0.2",
 ]
 optional-dependencies.test = [
   "black>=24.4.2",
