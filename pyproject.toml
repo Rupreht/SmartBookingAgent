@@ -35,8 +35,8 @@ optional-dependencies.docs = [
   "sorl-thumbnail>=12.10,<13",
   "sphinx>=5",
   "sphinx-issues==5.0.1",
-  "sphinx-rtd-theme==3.0.2",
-  "sphinxcontrib-spelling==8.0.1",
+  "sphinx-rtd-theme==3.1.0",
+  "sphinxcontrib-spelling==8.0.2",
 ]
 optional-dependencies.test = [
   "black>=24.4.2",
